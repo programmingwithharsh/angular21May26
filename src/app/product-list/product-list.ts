@@ -1,24 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Accordion } from "../accordion/accordion";
 import { Modal } from "../modal/modal";
 import { Star } from "../star/star";
-import { LowerCasePipe, JsonPipe, NgIf, NgFor } from '@angular/common';
+import { LowerCasePipe, JsonPipe } from '@angular/common';
 import { Iproduct } from '../iproduct';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [Accordion, Modal, Star, LowerCasePipe, JsonPipe, NgIf, NgFor],
+  imports: [Accordion, Modal, Star, LowerCasePipe, JsonPipe],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
 export class ProductList {
-  productTitle: string = "Product List"; // property
+  productTitle = signal<string>('Product List');
+  showImage = signal<boolean>(true);
   x: number = 2;
   y: any = "2";
   numbers: number[] = [301, 302, 303, 304, 305];
   flowers: string[] = ["Rose", "Dahlia", "Magnolia", "Tulip", "Daisy"];
-  products: Iproduct[] = [
+  products = signal<Iproduct[]>([
     {
       "productId": 1,
       "productName": "Leaf Rake - JSON",
@@ -69,5 +70,5 @@ export class ProductList {
       "starRating": 4.6,
       "imageUrl": "https://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png"
     }
-  ];
+  ]);
 }

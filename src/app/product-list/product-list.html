@@ -1,8 +1,9 @@
 <div class="container mt-4">
-    <h1>{{ productTitle }}</h1>
+    <h1>{{ productTitle() }}</h1>
     <button class="btn btn-primary">Show Image</button>
     <div class="table-responsive">
-        <table class="table" *ngIf="products && products.length">
+        @if (products() && products().length) {
+        <table class="table">
             <thead>
                 <tr>
                     <th></th>
@@ -15,10 +16,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let product of products">
-                    <td><img width="50" height="50" [src]="product.imageUrl" [alt]="product.productName"
+                @for (product of products(); track product.productId){
+                <tr>
+                    <td>
+                        @if (showImage()) {
+                        <img width="50" height="50" [src]="product.imageUrl" [alt]="product.productName"
                             class="img-thumbnail" />
-                        <!-- Property Binding --></td>
+                        }
+                        <!-- Property Binding -->
+                    </td>
                     <td>{{ product.productName }}</td>
                     <td>{{ product.productCode }}</td>
                     <td>{{ product.releaseDate }}</td>
@@ -26,16 +32,19 @@
                     <td>{{ product.price }}</td>
                     <td>{{ product.starRating }}<app-star></app-star></td>
                 </tr>
+                }
             </tbody>
         </table>
-    </div>
-    <div class="alert alert-danger" *ngIf="!products || !products.length">
-        <h3>No products found.</h3>
+        } @else {
+        <div class="alert alert-danger">
+            <h3>No products found.</h3>
+        </div>
+        }
     </div>
 
     <div>
         <h1>JSON response below for debugging</h1>
-        <pre>{{ products | json }}</pre>
+        <pre>{{ products() | json }}</pre>
         <app-accordion></app-accordion>
         <app-modal></app-modal>
         <app-star></app-star>
