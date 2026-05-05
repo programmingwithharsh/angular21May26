@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-star',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './star.html',
   styleUrl: './star.scss',
 })
-export class Star {}
+export class Star {
+  rating = input<number>(5);
+}
