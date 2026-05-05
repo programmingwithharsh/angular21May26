@@ -1,4 +1,4 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, OnInit, signal } from '@angular/core';
 import { Accordion } from "../accordion/accordion";
 import { Modal } from "../modal/modal";
 import { Star } from "../star/star";
@@ -14,7 +14,7 @@ import { ConvertToSpacesPipe } from '../convert-to-spaces-pipe';
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
-export class ProductList {
+export class ProductList implements OnInit {
   productTitle = signal<string>('Product List');
   showImage = signal<boolean>(true);
   x: number = 2;
@@ -83,16 +83,26 @@ export class ProductList {
     );
   });
 
-  constructor() {
+  constructor() { // constructor is called before ngOnInit
+    console.log('Constructor');
     effect(() => {
       console.log('Filtered Products: ' + this.filteredProducts().length);
     });
+  }
+
+  ngOnInit(): void {
+      console.log('ngOnInit');
   }
 
   // Methods
   toggleImage(): void {
     // this.showImage = !this.showImage;
     this.showImage.update(v => !v);
+  }
+
+  onRatingClicked(message: string): void {
+    debugger
+    this.productTitle.set('Product List: ' + message);
   }
 
 }
