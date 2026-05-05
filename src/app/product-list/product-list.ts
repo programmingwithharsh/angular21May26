@@ -2,17 +2,18 @@ import { Component } from '@angular/core';
 import { Accordion } from "../accordion/accordion";
 import { Modal } from "../modal/modal";
 import { Star } from "../star/star";
-import { LowerCasePipe } from '@angular/common';
+import { LowerCasePipe, JsonPipe, NgIf, NgFor } from '@angular/common';
 import { Iproduct } from '../iproduct';
 
 @Component({
   selector: 'app-product-list',
-  imports: [Accordion, Modal, Star, LowerCasePipe],
+  standalone: true,
+  imports: [Accordion, Modal, Star, LowerCasePipe, JsonPipe, NgIf, NgFor],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
 export class ProductList {
-  productTitle: string = "Dashboard Title"; // property
+  productTitle: string = "Product List"; // property
   x: number = 2;
   y: any = "2";
   numbers: number[] = [301, 302, 303, 304, 305];
