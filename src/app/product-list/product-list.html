@@ -1,8 +1,17 @@
 <div class="container mt-4">
     <h1>{{ productTitle() }}</h1>
-    <button class="btn btn-primary">Show Image</button>
+
+    <div class="m-2">Filtered by: {{ listFilter() }}</div>
+    <div class="row">
+        <div class="col-4">
+            <input type="text" class="form-control" placeholder="Filter products" [ngModel]="listFilter()"
+                (ngModelChange)="listFilter.set($event)" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary mt-2" (click)="toggleImage()">Toggle Image</button>
     <div class="table-responsive">
-        @if (products() && products().length) {
+        @if (filteredProducts() && filteredProducts().length) {
         <table class="table">
             <thead>
                 <tr>
@@ -16,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (product of products(); track product.productId){
+                @for (product of filteredProducts(); track product.productId){
                 <tr>
                     <td>
                         @if (showImage()) {
@@ -44,7 +53,7 @@
 
     <div>
         <h1>JSON response below for debugging</h1>
-        <pre>{{ products() | json }}</pre>
+        <pre>{{ filteredProducts() | json }}</pre>
         <app-accordion></app-accordion>
         <app-modal></app-modal>
         <app-star></app-star>

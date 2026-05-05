@@ -1,14 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { Accordion } from "../accordion/accordion";
 import { Modal } from "../modal/modal";
 import { Star } from "../star/star";
 import { LowerCasePipe, JsonPipe } from '@angular/common';
 import { Iproduct } from '../iproduct';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [Accordion, Modal, Star, LowerCasePipe, JsonPipe],
+  imports: [Accordion, Modal, Star, LowerCasePipe, JsonPipe, FormsModule],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
@@ -71,4 +72,26 @@ export class ProductList {
       "imageUrl": "https://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png"
     }
   ]);
+  listFilter = signal<string>('cart');
+
+  filteredProducts = computed<Iproduct[]>(() => {
+    const filter = this.listFilter().trim().toLowerCase();
+    if (!filter) return this.products();
+    return this.products().filter(p =>
+      p.productName.toLowerCase().includes(filter)
+    );
+  });
+
+  constructor() {
+    effect(() => {
+      console.log('Filtered Products: ' + this.filteredProducts().length);
+    });
+  }
+
+  // Methods
+  toggleImage(): void {
+    // this.showImage = !this.showImage;
+    this.showImage.update(v => !v);
+  }
+
 }
