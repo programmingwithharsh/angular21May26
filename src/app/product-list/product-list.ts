@@ -5,11 +5,12 @@ import { Star } from "../star/star";
 import { LowerCasePipe, JsonPipe } from '@angular/common';
 import { Iproduct } from '../iproduct';
 import { FormsModule } from '@angular/forms';
+import { ConvertToSpacesPipe } from '../convert-to-spaces-pipe';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [Accordion, Modal, Star, LowerCasePipe, JsonPipe, FormsModule],
+  imports: [Accordion, Modal, Star, LowerCasePipe, JsonPipe, FormsModule, ConvertToSpacesPipe],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
