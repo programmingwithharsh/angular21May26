@@ -8,5 +8,6 @@ import { ProductList } from './product-list/product-list';
 })
 export class App {
  // const x: string = 10;
+ // demo PR change
   protected readonly title = signal('dashboard');
 }
