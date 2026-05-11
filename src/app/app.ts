@@ -7,5 +7,6 @@ import { ProductList } from './product-list/product-list';
   styleUrl: './app.scss'
 })
 export class App {
+  const x: string = 10;
   protected readonly title = signal('dashboard');
 }
