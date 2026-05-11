@@ -1,0 +1,61 @@
+<div class="container mt-4">
+    <h1>{{ productTitle() }}</h1>
+
+    <div class="m-2">Filtered by: {{ listFilter() }}</div>
+    <div class="row">
+        <div class="col-4">
+            <input type="text" class="form-control" placeholder="Filter products" [ngModel]="listFilter()"
+                (ngModelChange)="listFilter.set($event)" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary mt-2" (click)="toggleImage()">Toggle Image</button>
+    <div class="table-responsive">
+        @if (filteredProducts() && filteredProducts().length) {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Product Name</th>
+                    <th>Product Code</th>
+                    <th>Release Date</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (product of filteredProducts(); track product.productId){
+                <tr>
+                    <td>
+                        @if (showImage()) {
+                        <img width="50" height="50" [src]="product.imageUrl" [alt]="product.productName"
+                            class="img-thumbnail" />
+                        }
+                        <!-- Property Binding -->
+                    </td>
+                    <td>{{ product.productName }}</td>
+                    <td>{{ product.productCode | convertToSpaces : '-'}}</td>
+                    <td>{{ product.releaseDate }}</td>
+                    <td>{{ product.description | lowercase}}</td>
+                    <td>{{ product.price }}</td>
+                    <td><app-star [rating]="product.starRating" (ratingClicked)="onRatingClicked($event)"></app-star></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        } @else {
+        <div class="alert alert-danger">
+            <h3>No products found.</h3>
+        </div>
+        }
+    </div>
+
+    <div>
+        <h1>JSON response below for debugging</h1>
+        <pre>{{ filteredProducts() | json }}</pre>
+        <app-accordion></app-accordion>
+        <app-modal></app-modal>
+        <app-star></app-star>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+import { Component, computed, effect, OnInit, signal } from '@angular/core';
+import { Accordion } from "../accordion/accordion";
+import { Modal } from "../modal/modal";
+import { Star } from "../star/star";
+import { LowerCasePipe, JsonPipe } from '@angular/common';
+import { Iproduct } from '../iproduct';
+import { FormsModule } from '@angular/forms';
+import { ConvertToSpacesPipe } from '../convert-to-spaces-pipe';
+
+@Component({
+  selector: 'app-product-list',
+  standalone: true,
+  imports: [Accordion, Modal, Star, LowerCasePipe, JsonPipe, FormsModule, ConvertToSpacesPipe],
+  templateUrl: './product-list.html',
+  styleUrl: './product-list.scss',
+})
+export class ProductList implements OnInit {
+  productTitle = signal<string>('Product List');
+  showImage = signal<boolean>(true);
+  x: number = 2;
+  y: any = "2";
+  numbers: number[] = [301, 302, 303, 304, 305];
+  flowers: string[] = ["Rose", "Dahlia", "Magnolia", "Tulip", "Daisy"];
+  products = signal<Iproduct[]>([
+    {
+      "productId": 1,
+      "productName": "Leaf Rake - JSON",
+      "productCode": "GDN-0011",
+      "releaseDate": "March 19, 2016",
+      "description": "Leaf rake with 48-inch wooden handle.",
+      "price": 19.95,
+      "starRating": 3.2,
+      "imageUrl": "https://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png"
+    },
+    {
+      "productId": 2,
+      "productName": "Garden Cart",
+      "productCode": "GDN-0023",
+      "releaseDate": "March 18, 2016",
+      "description": "15 gallon capacity rolling garden cart",
+      "price": 32.99,
+      "starRating": 4.2,
+      "imageUrl": "https://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png"
+    },
+    {
+      "productId": 3,
+      "productName": "Hammer",
+      "productCode": "TBX-0048",
+      "releaseDate": "May 21, 2016",
+      "description": "Curved claw steel hammer",
+      "price": 8.9,
+      "starRating": 4.8,
+      "imageUrl": "https://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png"
+    },
+    {
+      "productId": 4,
+      "productName": "Saw",
+      "productCode": "TBX-0022",
+      "releaseDate": "May 15, 2016",
+      "description": "15-inch steel blade hand saw",
+      "price": 11.55,
+      "starRating": 3.7,
+      "imageUrl": "https://openclipart.org/image/300px/svg_to_png/27070/egore911_saw.png"
+    },
+    {
+      "productId": 5,
+      "productName": "Video Game Controller",
+      "productCode": "GMG-0042",
+      "releaseDate": "October 15, 2015",
+      "description": "Standard two-button video game controller",
+      "price": 35.95,
+      "starRating": 4.6,
+      "imageUrl": "https://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png"
+    }
+  ]);
+  listFilter = signal<string>('cart');
+
+  filteredProducts = computed<Iproduct[]>(() => {
+    const filter = this.listFilter().trim().toLowerCase();
+    if (!filter) return this.products();
+    return this.products().filter(p =>
+      p.productName.toLowerCase().includes(filter)
+    );
+  });
+
+  constructor() { // constructor is called before ngOnInit
+    console.log('Constructor');
+    effect(() => {
+      console.log('Filtered Products: ' + this.filteredProducts().length);
+    });
+  }
+
+  ngOnInit(): void {
+      console.log('ngOnInit');
+  }
+
+  // Methods
+  toggleImage(): void {
+    // this.showImage = !this.showImage;
+    this.showImage.update(v => !v);
+  }
+
+  onRatingClicked(message: string): void {
+    debugger
+    this.productTitle.set('Product List: ' + message);
+  }
+
+}
